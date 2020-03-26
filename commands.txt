@@ -1,0 +1,19 @@
+git clone https://github.com/mrdima/demo.git
+
+kubectl apply -f cats.yml
+kubectl -n app1-ontw port-forward service/cats 5000:5000
+
+-> show in rancher namespace/pods running
+-> login on browser to http://localhost:5000
+
+helm repo add stable https://kubernetes-charts.storage.googleapis.com
+helm install jenkins stable/jenkins
+helm install my-release stable/jenkins -n app1-prod --set master.schedulerName=stork --set persistence.storageClass=portworx-r3
+
+kubectl get secret -n app1-prod my-release-jenkins -oyaml
+echo <jenkins-admin-password value> | base64 -d
+
+kubectl -n app1-prod port-forward service/my-release-jenkins 8080:8080
+
+-> show in rancher namespace/pods running
+-> login on browser to http://localhost:8080
